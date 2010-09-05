@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * @author ashokponkumar
@@ -17,7 +22,7 @@ public class ICSReaderActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.icsfileslistview);
 		setTitle("ICS Files");
 
 		List<String> icsFiles = getICSFilesInSDCard();
@@ -34,8 +39,21 @@ public class ICSReaderActivity extends ListActivity {
 		File[] icsFiles = file.listFiles(new ICSFilesFilter());
 		List<String> icsFileNames = new ArrayList<String>();
 		for (File icsFile : icsFiles) {
-			icsFileNames.add(icsFile.getName());
+			icsFileNames.add(icsFile.getAbsolutePath());
 		}
 		return icsFileNames;
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setDataAndType(Uri.parse("file://"
+				+ l.getItemAtPosition(position)), "text/ics");
+		// intent.setData(Uri.parse((String) l.getItemAtPosition(position)));
+		this.startActivity(intent);
+		Toast.makeText(this, (String) l.getItemAtPosition(position),
+				Toast.LENGTH_SHORT).show();
 	}
 }
