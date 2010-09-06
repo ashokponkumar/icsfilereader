@@ -49,8 +49,8 @@ public class ICSReaderActivity extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.parse("file://"
-				+ l.getItemAtPosition(position)), "text/ics");
+		intent.setDataAndType(Uri.fromFile(new File((String) l
+				.getItemAtPosition(position))), "text/ics");
 		// intent.setData(Uri.parse((String) l.getItemAtPosition(position)));
 		this.startActivity(intent);
 		Toast.makeText(this, (String) l.getItemAtPosition(position),
